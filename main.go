@@ -8,12 +8,16 @@ type Password struct {
 	Password string
 }
 
-func changeLogin(p Password, login string) {
+func (p *Password) ChangeLogin(login string) {
 	p.Login = login
 }
 
-func changeCurrentLogin(p *Password, login string) {
-	p.Login = login
+func (p Password) GetDescription() string {
+	return p.Service + " " + p.Login
+}
+
+func (p *Password) IsEmpty() bool {
+	return len(p.Password) == 0
 }
 
 func main() {
@@ -23,24 +27,12 @@ func main() {
 		Password: "yandex",
 	}
 
-	google := Password{
-		Service:  "google",
-		Login:    "google",
-		Password: "google",
-	}
+	yandex.ChangeLogin("new_yandex")
 
-	newYandex := yandex
+	fmt.Println(yandex)
 
-	changeLogin(yandex, "new_yandex")
-	changeCurrentLogin(&newYandex, "new_yandex")
+	fmt.Println(yandex.GetDescription())
 
-	passwords := []Password{yandex, google, newYandex}
+	fmt.Println(yandex.IsEmpty())
 
-	passwords[0].Login = "new login"
-
-	for inx := range passwords {
-		passwords[inx].Password = passwords[inx].Password + passwords[inx].Password
-	}
-
-	fmt.Printf("%+v\n", passwords)
 }
