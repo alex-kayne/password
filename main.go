@@ -8,6 +8,14 @@ type Password struct {
 	Password string
 }
 
+func changeLogin(p Password, login string) {
+	p.Login = login
+}
+
+func changeCurrentLogin(p *Password, login string) {
+	p.Login = login
+}
+
 func main() {
 	yandex := Password{
 		Service:  "yandex",
@@ -21,21 +29,18 @@ func main() {
 		Password: "google",
 	}
 
-	fmt.Println(yandex)
-	fmt.Println(google)
-
-	yandex.Login = "new_yandex"
-
 	newYandex := yandex
 
-	newYandex.Login = "new_new_yandex"
-
-	if yandex.Login == "new_yandex" {
-		fmt.Println("Nothing changed")
-	}
+	changeLogin(yandex, "new_yandex")
+	changeCurrentLogin(&newYandex, "new_yandex")
 
 	passwords := []Password{yandex, google, newYandex}
-	for _, password := range passwords {
-		fmt.Println(password)
+
+	passwords[0].Login = "new login"
+
+	for inx := range passwords {
+		passwords[inx].Password = passwords[inx].Password + passwords[inx].Password
 	}
+
+	fmt.Printf("%+v\n", passwords)
 }
