@@ -16,8 +16,8 @@ func (p Password) GetDescription() string {
 	return p.Service + " " + p.Login
 }
 
-func (p *Password) IsEmpty() bool {
-	return len(p.Password) == 0
+func (p Password) IsEmpty() bool {
+	return p.Password == ""
 }
 
 func main() {
