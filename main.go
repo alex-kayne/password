@@ -2,27 +2,33 @@ package main
 
 import "fmt"
 
-type Password struct {
-	Service  string
+type Account struct {
+	Url      string
 	Login    string
 	Password string
 }
 
-func (p *Password) ChangeLogin(login string) {
+func (p *Account) ChangeLogin(login string) {
 	p.Login = login
 }
 
-func (p Password) GetDescription() string {
-	return p.Service + " " + p.Login
+func (p Account) GetDescription() string {
+	return p.Url + " " + p.Login
 }
 
-func (p *Password) IsEmpty() bool {
+func (p *Account) IsEmpty() bool {
 	return p.Password == ""
 }
 
+func (a *Account) OutputPassword() {
+	fmt.Println(a.Url)
+	fmt.Println(a.Login)
+	fmt.Println(a.Password)
+}
+
 func main() {
-	yandex := Password{
-		Service:  "yandex",
+	yandex := Account{
+		Url:      "yandex",
 		Login:    "yandex",
 		Password: "yandex",
 	}
@@ -34,5 +40,7 @@ func main() {
 	fmt.Println(yandex.GetDescription())
 
 	fmt.Println(yandex.IsEmpty())
+
+	yandex.OutputPassword()
 
 }
