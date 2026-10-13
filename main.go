@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 type Account struct {
-	Url      string
+	URL      string
 	Login    string
 	Password string
 }
@@ -13,22 +13,22 @@ func (p *Account) ChangeLogin(login string) {
 }
 
 func (p Account) GetDescription() string {
-	return p.Url + " " + p.Login
+	return p.URL + " " + p.Login
 }
 
 func (p *Account) IsEmpty() bool {
 	return p.Password == ""
 }
 
-func (a *Account) OutputPassword() {
-	fmt.Println(a.Url)
+func OutputPassword(a *Account) {
+	fmt.Println(a.URL)
 	fmt.Println(a.Login)
 	fmt.Println(a.Password)
 }
 
 func main() {
 	yandex := Account{
-		Url:      "yandex",
+		URL:      "yandex",
 		Login:    "yandex",
 		Password: "yandex",
 	}
@@ -41,6 +41,5 @@ func main() {
 
 	fmt.Println(yandex.IsEmpty())
 
-	yandex.OutputPassword()
-
+	OutputPassword(&yandex)
 }
