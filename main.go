@@ -11,28 +11,28 @@ type Account struct {
 
 var allowedSymbols = []rune{'!', '@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=', '?', '~', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
 
-func genPassword(n int) string {
+func (a *Account) genPassword(n int) {
 	result := make([]rune, n)
 	for inx := range n {
 		symInx := rand.IntN(len(allowedSymbols))
 		result[inx] = allowedSymbols[symInx]
 	}
-	return string(result)
+	a.Password = string(result)
 }
 
-func (p *Account) ChangeLogin(login string) {
-	p.Login = login
+func (a *Account) ChangeLogin(login string) {
+	a.Login = login
 }
 
-func (p Account) GetDescription() string {
-	return p.URL + " " + p.Login
+func (a Account) GetDescription() string {
+	return a.URL + " " + a.Login
 }
 
-func (p *Account) IsEmpty() bool {
-	return p.Password == ""
+func (a *Account) IsEmpty() bool {
+	return a.Password == ""
 }
 
-func OutputPassword(a *Account) {
+func (a *Account) OutputPassword() {
 	fmt.Println(a.URL)
 	fmt.Println(a.Login)
 	fmt.Println(a.Password)
@@ -41,6 +41,7 @@ func OutputPassword(a *Account) {
 func main() {
 	fmt.Println("Введите длину пароля от 1 до 32 символов")
 	var n int
+
 	_, err := fmt.Scanln(&n)
 	if err != nil {
 		fmt.Println("Что-то пошло не так")
@@ -53,10 +54,11 @@ func main() {
 	}
 
 	yandex := Account{
-		URL:      "yandex",
-		Login:    "yandex",
-		Password: genPassword(n),
+		URL:   "yandex",
+		Login: "yandex",
 	}
+
+	yandex.genPassword(n)
 
 	yandex.ChangeLogin("new_yandex")
 
@@ -66,5 +68,6 @@ func main() {
 
 	fmt.Println(yandex.IsEmpty())
 
-	OutputPassword(&yandex)
+	yandex.OutputPassword()
+
 }
