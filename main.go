@@ -38,6 +38,14 @@ func (a *Account) OutputPassword() {
 	fmt.Println(a.Password)
 }
 
+func NewAccount(url string, login string, password string) *Account {
+	return &Account{
+		URL:      url,
+		Login:    login,
+		Password: password,
+	}
+}
+
 func main() {
 	fmt.Println("Введите длину пароля от 1 до 32 символов")
 	var n int
@@ -53,10 +61,7 @@ func main() {
 		return
 	}
 
-	yandex := Account{
-		URL:   "yandex",
-		Login: "yandex",
-	}
+	yandex := NewAccount("Yandex", "Yandex", "Yandex")
 
 	yandex.GeneratePassword(n)
 
