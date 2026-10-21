@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 import "math/rand/v2"
+import "net/url"
 
 type Account struct {
 	URL      string
@@ -38,12 +39,26 @@ func (a *Account) OutputPassword() {
 	fmt.Println(a.Password)
 }
 
-func NewAccount(url string, login string, password string) *Account {
+func NewAccount(urlString, login, password string) (*Account, error) {
+	parsed, err := url.Parse(urlString)
+
+	if err != nil {
+		return nil, fmt.Errorf("ошибка в урле")
+	}
+
+	if parsed.Scheme != "http" && parsed.Scheme != "https" {
+		return nil, fmt.Errorf("недопустимая схема запроса")
+	}
+
+	if parsed.Host == "" {
+		return nil, fmt.Errorf("отсутствует хост")
+	}
+
 	return &Account{
-		URL:      url,
+		URL:      urlString,
 		Login:    login,
 		Password: password,
-	}
+	}, nil
 }
 
 func main() {
@@ -61,7 +76,12 @@ func main() {
 		return
 	}
 
-	yandex := NewAccount("Yandex", "Yandex", "Yandex")
+	yandex, err := NewAccount("https://www.google.com/search", "Yandex", "Yandex")
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	yandex.GeneratePassword(n)
 
