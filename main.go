@@ -43,15 +43,15 @@ func NewAccount(urlString, login, password string) (*Account, error) {
 	parsed, err := url.Parse(urlString)
 
 	if err != nil {
-		return nil, fmt.Errorf("ошибка в урле")
+		return nil, fmt.Errorf("ошибка в урле %w", err)
 	}
 
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return nil, fmt.Errorf("недопустимая схема запроса")
+		return nil, fmt.Errorf("недопустимая схема запроса %w", err)
 	}
 
 	if parsed.Host == "" {
-		return nil, fmt.Errorf("отсутствует хост")
+		return nil, fmt.Errorf("отсутствует хост %w", err)
 	}
 
 	return &Account{
