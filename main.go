@@ -47,11 +47,11 @@ func NewAccount(urlString, login, password string) (*Account, error) {
 	}
 
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return nil, fmt.Errorf("недопустимая схема запроса %w", err)
+		return nil, fmt.Errorf("недопустимая схема запроса")
 	}
 
 	if parsed.Host == "" {
-		return nil, fmt.Errorf("отсутствует хост %w", err)
+		return nil, fmt.Errorf("отсутствует хост")
 	}
 
 	return &Account{
