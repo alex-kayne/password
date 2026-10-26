@@ -12,27 +12,13 @@ type Account struct {
 
 var allowedSymbols = []rune{'!', '@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=', '?', '~', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
 
-func (a *Account) GeneratePassword() error {
-	var n int
-
-	fmt.Println("Введите длину пароля от 1 до 32 символов")
-	_, err := fmt.Scanln(&n)
-
-	if err != nil {
-		return fmt.Errorf("ошибка при вводе длины пароля")
-	}
-
-	if n < 1 || n > 32 {
-		return fmt.Errorf("Длина пароля может быть от 1 до 32")
-	}
-
+func (a *Account) GeneratePassword(n int) {
 	result := make([]rune, n)
 	for inx := range n {
 		symInx := rand.IntN(len(allowedSymbols))
 		result[inx] = allowedSymbols[symInx]
 	}
 	a.Password = string(result)
-	return nil
 }
 
 func (a *Account) ChangeLogin(login string) {
@@ -77,12 +63,19 @@ func NewAccount(urlString, login, password string) (*Account, error) {
 	}
 
 	if password == "" {
+		var n int
 
-		err := account.GeneratePassword()
+		fmt.Println("Введите длину пароля от 1 до 32 символов")
+		_, err := fmt.Scanln(&n)
+
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("ошибка при вводе длины пароля")
 		}
 
+		if n < 1 || n > 32 {
+			return nil, fmt.Errorf("Длина пароля может быть от 1 до 32")
+		}
+		account.GeneratePassword(n)
 	}
 
 	return account, nil
