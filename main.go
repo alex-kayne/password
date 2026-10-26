@@ -12,13 +12,27 @@ type Account struct {
 
 var allowedSymbols = []rune{'!', '@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=', '?', '~', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
 
-func (a *Account) GeneratePassword(n int) {
+func (a *Account) GeneratePassword() error {
+	var n int
+
+	fmt.Println("Введите длину пароля от 1 до 32 символов")
+	_, err := fmt.Scanln(&n)
+
+	if err != nil {
+		return fmt.Errorf("ошибка при вводе длины пароля")
+	}
+
+	if n < 1 || n > 32 {
+		return fmt.Errorf("Длина пароля может быть от 1 до 32")
+	}
+
 	result := make([]rune, n)
 	for inx := range n {
 		symInx := rand.IntN(len(allowedSymbols))
 		result[inx] = allowedSymbols[symInx]
 	}
 	a.Password = string(result)
+	return nil
 }
 
 func (a *Account) ChangeLogin(login string) {
@@ -41,9 +55,12 @@ func (a *Account) OutputPassword() {
 
 func NewAccount(urlString, login, password string) (*Account, error) {
 	parsed, err := url.Parse(urlString)
-
 	if err != nil {
 		return nil, fmt.Errorf("ошибка в урле %w", err)
+	}
+
+	if login == "" {
+		return nil, fmt.Errorf("логин не может быть пустым")
 	}
 
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
@@ -53,37 +70,32 @@ func NewAccount(urlString, login, password string) (*Account, error) {
 	if parsed.Host == "" {
 		return nil, fmt.Errorf("отсутствует хост")
 	}
-
-	return &Account{
+	account := &Account{
 		URL:      urlString,
 		Login:    login,
 		Password: password,
-	}, nil
+	}
+
+	if password == "" {
+
+		err := account.GeneratePassword()
+		if err != nil {
+			return nil, err
+		}
+
+	}
+
+	return account, nil
 }
 
 func main() {
-	fmt.Println("Введите длину пароля от 1 до 32 символов")
-	var n int
 
-	_, err := fmt.Scanln(&n)
-	if err != nil {
-		fmt.Println("Что-то пошло не так")
-		return
-	}
-
-	if n < 1 || n > 32 {
-		fmt.Println("Длина пароля может быть от 1 до 32")
-		return
-	}
-
-	yandex, err := NewAccount("https://www.google.com/search", "Yandex", "Yandex")
+	yandex, err := NewAccount("https://www.google.com/search", "Yandex", "")
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
-	yandex.GeneratePassword(n)
 
 	yandex.ChangeLogin("new_yandex")
 
