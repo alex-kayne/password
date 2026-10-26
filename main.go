@@ -63,8 +63,12 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 		Password: password,
 	}
 
-	if passwordLength < 1 || passwordLength > 32 {
-		return nil, fmt.Errorf("Длина пароля может быть от 1 до 32")
+	if password == "" {
+		if passwordLength < 1 || passwordLength > 32 {
+			return nil, fmt.Errorf("длина пароля должна быть от 1 до 32")
+		}
+
+		account.GeneratePassword(passwordLength)
 	}
 
 	if password == "" {
