@@ -39,7 +39,7 @@ func (a *Account) OutputPassword() {
 	fmt.Println(a.Password)
 }
 
-func NewAccount(urlString, login, password string) (*Account, error) {
+func NewAccount(urlString, login, password string, passwordLength int) (*Account, error) {
 	parsed, err := url.Parse(urlString)
 	if err != nil {
 		return nil, fmt.Errorf("ошибка в урле %w", err)
@@ -56,16 +56,35 @@ func NewAccount(urlString, login, password string) (*Account, error) {
 	if parsed.Host == "" {
 		return nil, fmt.Errorf("отсутствует хост")
 	}
-	return &Account{
+	account := &Account{
 		URL:      urlString,
 		Login:    login,
 		Password: password,
-	}, nil
+	}
+	if password == "" {
+		account.GeneratePassword(passwordLength)
+	}
+	return account, nil
 }
 
 func main() {
+	var n int
 
-	yandex, err := NewAccount("https://www.google.com/search", "Yandex", "")
+	fmt.Println("Введите длину пароля от 1 до 32 символов")
+
+	_, err := fmt.Scanln(&n)
+
+	if err != nil {
+		fmt.Println("ошибка при вводе длины пароля")
+		return
+	}
+
+	if n < 1 || n > 32 {
+		fmt.Println("Длина пароля может быть от 1 до 32")
+		return
+	}
+
+	yandex, err := NewAccount("https://www.google.com/search", "Yandex", "", n)
 
 	if err != nil {
 		fmt.Println(err)
@@ -73,20 +92,7 @@ func main() {
 	}
 
 	if yandex.Password == "" {
-		var n int
 
-		fmt.Println("Введите длину пароля от 1 до 32 символов")
-		_, err := fmt.Scanln(&n)
-
-		if err != nil {
-			fmt.Println("ошибка при вводе длины пароля")
-			return
-		}
-
-		if n < 1 || n > 32 {
-			fmt.Println("Длина пароля может быть от 1 до 32")
-			return
-		}
 		yandex.GeneratePassword(n)
 	}
 
