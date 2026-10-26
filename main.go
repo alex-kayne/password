@@ -56,29 +56,11 @@ func NewAccount(urlString, login, password string) (*Account, error) {
 	if parsed.Host == "" {
 		return nil, fmt.Errorf("отсутствует хост")
 	}
-	account := &Account{
+	return &Account{
 		URL:      urlString,
 		Login:    login,
 		Password: password,
-	}
-
-	if password == "" {
-		var n int
-
-		fmt.Println("Введите длину пароля от 1 до 32 символов")
-		_, err := fmt.Scanln(&n)
-
-		if err != nil {
-			return nil, fmt.Errorf("ошибка при вводе длины пароля")
-		}
-
-		if n < 1 || n > 32 {
-			return nil, fmt.Errorf("Длина пароля может быть от 1 до 32")
-		}
-		account.GeneratePassword(n)
-	}
-
-	return account, nil
+	}, nil
 }
 
 func main() {
@@ -88,6 +70,24 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+
+	if yandex.Password == "" {
+		var n int
+
+		fmt.Println("Введите длину пароля от 1 до 32 символов")
+		_, err := fmt.Scanln(&n)
+
+		if err != nil {
+			fmt.Println("ошибка при вводе длины пароля")
+			return
+		}
+
+		if n < 1 || n > 32 {
+			fmt.Println("Длина пароля может быть от 1 до 32")
+			return
+		}
+		yandex.GeneratePassword(n)
 	}
 
 	yandex.ChangeLogin("new_yandex")
