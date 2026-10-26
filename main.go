@@ -71,10 +71,6 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 		account.GeneratePassword(passwordLength)
 	}
 
-	if password == "" {
-		account.GeneratePassword(passwordLength)
-	}
-
 	return account, nil
 }
 
