@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 import "math/rand/v2"
 import "net/url"
 
@@ -8,6 +11,12 @@ type Account struct {
 	URL      string
 	Login    string
 	Password string
+}
+
+type AccountWithTimestamp struct {
+	*Account
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 var allowedSymbols = []rune{'!', '@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=', '?', '~', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
@@ -74,6 +83,16 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 	return account, nil
 }
 
+func NewAccountWithTimestamp(urlString, login, password string, passwordLength int) (*AccountWithTimestamp, error) {
+	account, err := NewAccount(urlString, login, password, passwordLength)
+
+	if err != nil {
+		return nil, err
+	}
+	accountWithTimestamp := AccountWithTimestamp{account, time.Now(), time.Now()}
+	return &accountWithTimestamp, nil
+}
+
 func main() {
 	var n int
 
@@ -102,5 +121,14 @@ func main() {
 	fmt.Println(yandex.IsEmpty())
 
 	yandex.OutputPassword()
+
+	google, err := NewAccountWithTimestamp("https://www.google.com/search", "Google", "", n)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(google.Login)
 
 }
