@@ -89,7 +89,8 @@ func NewAccountWithTimestamp(urlString, login, password string, passwordLength i
 	if err != nil {
 		return nil, err
 	}
-	accountWithTimestamp := AccountWithTimestamp{account, time.Now(), time.Now()}
+	now := time.Now()
+	accountWithTimestamp := AccountWithTimestamp{account, now, now}
 	return &accountWithTimestamp, nil
 }
 
@@ -131,4 +132,5 @@ func main() {
 
 	fmt.Println(google.Login)
 
+	google.ChangeLogin("new_google")
 }
