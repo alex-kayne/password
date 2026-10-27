@@ -1,6 +1,7 @@
 package main
 
 import (
+	"demo/password/account"
 	"fmt"
 )
 
@@ -16,7 +17,7 @@ func main() {
 		return
 	}
 
-	yandex, err := NewAccount("https://www.google.com/search", "Yandex", "", n)
+	yandex, err := account.NewAccount("https://www.google.com/search", "Yandex", "", n)
 
 	if err != nil {
 		fmt.Println(err)
@@ -33,7 +34,7 @@ func main() {
 
 	yandex.OutputPassword()
 
-	google, err := NewAccountWithTimestamp("https://www.google.com/search", "Google", "", n)
+	google, err := account.NewAccountWithTimestamp("https://www.google.com/search", "Google", "", n)
 
 	if err != nil {
 		fmt.Println(err)
