@@ -15,7 +15,7 @@ func main() {
 	_, err := fmt.Scanln(&n)
 
 	if err != nil {
-		color.Red("ошибка при вводе длины пароля")
+		color.Red("%v", err)
 		return
 	}
 
@@ -39,7 +39,7 @@ func main() {
 	google, err := account.NewAccountWithTimestamp("https://www.google.com/search", "Google", "", n)
 
 	if err != nil {
-		color.Red(err.Error())
+		color.Red("%v", err)
 		return
 	}
 
