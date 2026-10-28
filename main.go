@@ -3,6 +3,8 @@ package main
 import (
 	"demo/password/account"
 	"fmt"
+
+	"github.com/fatih/color"
 )
 
 func main() {
@@ -13,14 +15,14 @@ func main() {
 	_, err := fmt.Scanln(&n)
 
 	if err != nil {
-		fmt.Println("ошибка при вводе длины пароля")
+		color.Red("ошибка при вводе длины пароля")
 		return
 	}
 
 	yandex, err := account.NewAccount("https://www.google.com/search", "Yandex", "", n)
 
 	if err != nil {
-		fmt.Println(err)
+		color.Red(err.Error())
 		return
 	}
 
@@ -37,7 +39,7 @@ func main() {
 	google, err := account.NewAccountWithTimestamp("https://www.google.com/search", "Google", "", n)
 
 	if err != nil {
-		fmt.Println(err)
+		color.Red(err.Error())
 		return
 	}
 
