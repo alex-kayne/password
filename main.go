@@ -22,7 +22,7 @@ func main() {
 	yandex, err := account.NewAccount("https://www.google.com/search", "Yandex", "", n)
 
 	if err != nil {
-		color.Red(err.Error())
+		color.Red("%v", err)
 		return
 	}
 
