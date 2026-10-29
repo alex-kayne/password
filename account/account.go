@@ -8,9 +8,9 @@ import (
 )
 
 type Account struct {
-	URL      string
-	Login    string
-	Password string
+	URL      string `json:"url" xml:"url"`
+	Login    string `json:"login"`
+	Password string `json:"-"`
 }
 
 type AccountWithTimestamp struct {
