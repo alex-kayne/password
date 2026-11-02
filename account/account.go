@@ -104,3 +104,6 @@ func CreateAccount(urlString, login, password string, passwordLength int) error 
 	}
 	return nil
 }
+
+func FindAccount()   {}
+func DeleteAccount() {}

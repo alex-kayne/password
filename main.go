@@ -2,73 +2,50 @@ package main
 
 import (
 	"demo/password/account"
-	"encoding/json"
 	"fmt"
-	"reflect"
 
 	"github.com/fatih/color"
 )
 
 func main() {
+	var num int
+	fmt.Println("Добро пожаловать в менеджер паролей!")
+	var urlString, login, password string
+	var passwordLength int
+Menu:
+	for {
+		fmt.Println("Ваш выбор:")
+		_, err := fmt.Scan(&num)
+		if num == 0 {
+			break Menu
+		}
 
-	reflectedType := reflect.TypeFor[account.Account]()
+		if err != nil {
+			color.Red("%v", err)
+		}
 
-	reflectedField, ok := reflectedType.FieldByName("URL")
+		switch num {
+		case 1:
+			fmt.Println("Введите url, login, password, длину пароля")
+			_, err := fmt.Scan(&urlString, &login, &password, &passwordLength)
+			if err != nil {
+				color.Red("%v", err)
+				return
+			}
 
-	if ok {
-		fmt.Println(reflectedField.Tag.Get("json"))
+			err = account.CreateAccount(urlString, login, password, passwordLength)
+			if err != nil {
+				color.Red("%v", err)
+			} else {
+				color.Green("Аккаунт выгружен в файл data.json")
+			}
+
+		case 2:
+			account.FindAccount()
+		case 3:
+			account.DeleteAccount()
+		default:
+			fmt.Println("Неизвестный параметр выбора")
+		}
 	}
-
-	var n int
-
-	fmt.Println("Введите длину пароля от 1 до 32 символов")
-
-	_, err := fmt.Scanln(&n)
-
-	if err != nil {
-		color.Red("%v", err)
-		return
-	}
-
-	yandex, err := account.NewAccount("https://www.google.com/search", "Yandex", "", n)
-
-	if err != nil {
-		color.Red("%v", err)
-		return
-	}
-
-	yandex.ChangeLogin("new_yandex")
-
-	fmt.Println(yandex)
-
-	fmt.Println(yandex.GetDescription())
-
-	fmt.Println(yandex.IsEmpty())
-
-	yandex.OutputPassword()
-
-	google, err := account.NewAccount("https://www.google.com/search", "Google", "", n)
-
-	if err != nil {
-		color.Red("%v", err)
-		return
-	}
-
-	err = account.CreateAccount("https://www.google.com/search", "Google", "", n)
-
-	if err != nil {
-		color.Red("%v", err)
-		return
-	}
-
-	fmt.Println(google.Login)
-
-	google.ChangeLogin("new_google")
-
-	data, err := json.Marshal(google)
-	if err != nil {
-		return
-	}
-
-	fmt.Println(string(data))
 }
