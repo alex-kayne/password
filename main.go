@@ -54,6 +54,13 @@ func main() {
 		return
 	}
 
+	err = account.CreateAccount("https://www.google.com/search", "Google", "", n)
+
+	if err != nil {
+		color.Red("%v", err)
+		return
+	}
+
 	fmt.Println(google.Login)
 
 	google.ChangeLogin("new_google")

@@ -10,11 +10,11 @@ import (
 )
 
 type Account struct {
-	URL       string `json:"url" xml:"url"`
-	Login     string `json:"login"`
-	Password  string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	URL       string    `json:"url" xml:"url"`
+	Login     string    `json:"login"`
+	Password  string    `json:"password"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 var allowedSymbols = []rune{'!', '@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=', '?', '~', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
@@ -85,14 +85,19 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 	return account, nil
 }
 
-func (a *Account) CreateAccount() error {
-	data, err := json.Marshal(a)
+func CreateAccount(urlString, login, password string, passwordLength int) error {
+	newAccount, err := NewAccount(urlString, login, password, passwordLength)
+
 	if err != nil {
 		return err
 	}
 
-	filename := fmt.Sprintf("%s %s", a.URL, a.Login)
-	err = files.WriteFile(string(data), filename)
+	data, err := json.Marshal(newAccount)
+	if err != nil {
+		return err
+	}
+
+	err = files.WriteFile(string(data), "data.json")
 
 	if err != nil {
 		return err
