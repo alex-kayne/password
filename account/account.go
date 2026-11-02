@@ -1,6 +1,8 @@
 package account
 
 import (
+	"demo/password/files"
+	"encoding/json"
 	"fmt"
 	"math/rand/v2"
 	"net/url"
@@ -8,13 +10,9 @@ import (
 )
 
 type Account struct {
-	URL      string `json:"url" xml:"url"`
-	Login    string `json:"login"`
-	Password string `json:"-"`
-}
-
-type AccountWithTimestamp struct {
-	*Account
+	URL       string `json:"url" xml:"url"`
+	Login     string `json:"login"`
+	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -34,7 +32,7 @@ func (a *Account) ChangeLogin(login string) {
 	a.Login = login
 }
 
-func (a Account) GetDescription() string {
+func (a *Account) GetDescription() string {
 	return a.URL + " " + a.Login
 }
 
@@ -66,10 +64,14 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 		return nil, fmt.Errorf("отсутствует хост")
 	}
 
+	now := time.Now()
+
 	account := &Account{
-		URL:      urlString,
-		Login:    login,
-		Password: password,
+		URL:       urlString,
+		Login:     login,
+		Password:  password,
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 
 	if password == "" {
@@ -83,13 +85,17 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 	return account, nil
 }
 
-func NewAccountWithTimestamp(urlString, login, password string, passwordLength int) (*AccountWithTimestamp, error) {
-	account, err := NewAccount(urlString, login, password, passwordLength)
+func (a *Account) CreateAccount() error {
+	data, err := json.Marshal(a)
+	if err != nil {
+		return err
+	}
+
+	filename := fmt.Sprintf("%s %s", a.URL, a.Login)
+	err = files.WriteFile(string(data), filename)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
-	now := time.Now()
-	accountWithTimestamp := AccountWithTimestamp{account, now, now}
-	return &accountWithTimestamp, nil
+	return nil
 }

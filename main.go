@@ -47,7 +47,7 @@ func main() {
 
 	yandex.OutputPassword()
 
-	google, err := account.NewAccountWithTimestamp("https://www.google.com/search", "Google", "", n)
+	google, err := account.NewAccount("https://www.google.com/search", "Google", "", n)
 
 	if err != nil {
 		color.Red("%v", err)
