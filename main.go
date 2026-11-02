@@ -2,6 +2,7 @@ package main
 
 import (
 	"demo/password/account"
+	"demo/password/menu"
 	"fmt"
 
 	"github.com/fatih/color"
@@ -12,22 +13,28 @@ func main() {
 	fmt.Println("Добро пожаловать в менеджер паролей!")
 	var urlString, login, password string
 	var passwordLength int
-Menu:
+
 	for {
-		fmt.Println("Ваш выбор:")
+		menu.GetMenu()
 		_, err := fmt.Scan(&num)
 		if num == 0 {
-			break Menu
+			return
 		}
 
 		if err != nil {
 			color.Red("%v", err)
+			return
 		}
 
 		switch num {
 		case 1:
 			fmt.Println("Введите url, login, password, длину пароля")
 			_, err := fmt.Scan(&urlString, &login, &password, &passwordLength)
+
+			if password == "-" {
+				password = ""
+			}
+
 			if err != nil {
 				color.Red("%v", err)
 				return
