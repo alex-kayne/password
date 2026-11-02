@@ -1,8 +1,10 @@
 package menu
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func GetMenu() {
+func GetMenu() (int, error) {
 	text := `Выберите вариант:
 
 1. Создать аккаунт
@@ -13,4 +15,12 @@ func GetMenu() {
 Ваш выбор:`
 
 	fmt.Println(text)
+	var num int
+
+	_, err := fmt.Scan(&num)
+
+	if err != nil {
+		return 0, err
+	}
+	return num, nil
 }

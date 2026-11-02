@@ -9,17 +9,12 @@ import (
 )
 
 func main() {
-	var num int
 	fmt.Println("Добро пожаловать в менеджер паролей!")
 	var urlString, login, password string
 	var passwordLength int
 
 	for {
-		menu.GetMenu()
-		_, err := fmt.Scan(&num)
-		if num == 0 {
-			return
-		}
+		num, err := menu.GetMenu()
 
 		if err != nil {
 			color.Red("%v", err)
@@ -51,6 +46,8 @@ func main() {
 			account.FindAccount()
 		case 3:
 			account.DeleteAccount()
+		case 4:
+			return
 		default:
 			fmt.Println("Неизвестный параметр выбора")
 		}
