@@ -1,8 +1,6 @@
 package account
 
 import (
-	"demo/password/files"
-	"encoding/json"
 	"fmt"
 	"math/rand/v2"
 	"net/url"
@@ -83,26 +81,6 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 	}
 
 	return account, nil
-}
-
-func CreateAccount(urlString, login, password string, passwordLength int) error {
-	newAccount, err := NewAccount(urlString, login, password, passwordLength)
-
-	if err != nil {
-		return err
-	}
-
-	data, err := json.Marshal(newAccount)
-	if err != nil {
-		return err
-	}
-
-	err = files.WriteFile(string(data), "data.json")
-
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 func FindAccount()   {}

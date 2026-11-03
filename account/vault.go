@@ -6,8 +6,8 @@ import (
 )
 
 type Vault struct {
-	accounts  []*Account
-	updatedAt time.Time `json:"updated_at"`
+	Accounts  []*Account `json:"accounts"`
+	UpdatedAt time.Time  `json:"updated_at"`
 }
 
 func NewVault() Vault {
@@ -15,8 +15,8 @@ func NewVault() Vault {
 }
 
 func (v *Vault) AddAccount(account *Account) {
-	v.accounts = append(v.accounts, account)
-	v.updatedAt = time.Now()
+	v.Accounts = append(v.Accounts, account)
+	v.UpdatedAt = time.Now()
 }
 
 func (v *Vault) ToBytes() ([]byte, error) {
