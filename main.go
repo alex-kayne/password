@@ -2,6 +2,7 @@ package main
 
 import (
 	"demo/password/account"
+	"demo/password/files"
 	"demo/password/menu"
 	"fmt"
 
@@ -12,6 +13,8 @@ func main() {
 	fmt.Println("Добро пожаловать в менеджер паролей!")
 	var urlString, login, password string
 	var passwordLength int
+
+	vault := account.NewVault()
 
 	for {
 		num, err := menu.GetMenu()
@@ -35,11 +38,22 @@ func main() {
 				return
 			}
 
-			err = account.CreateAccount(urlString, login, password, passwordLength)
+			newAccount, err := account.NewAccount(urlString, login, password, passwordLength)
 			if err != nil {
 				color.Red("%v", err)
 			} else {
-				color.Green("Аккаунт выгружен в файл data.json")
+				vault.AddAccount(newAccount)
+				data, err := vault.ToBytes()
+				if err != nil {
+					color.Red("%v", err)
+				} else {
+					err = files.WriteFile(string(data), "data.json")
+					if err != nil {
+						color.Red("%v", err)
+					} else {
+						color.Green("Vault выгружен в файл data.json")
+					}
+				}
 			}
 
 		case 2:
