@@ -20,6 +20,10 @@ func NewVault() (*Vault, error) {
 
 	if errors.Is(err, os.ErrNotExist) {
 		color.Red("Не существует файла с названием: %s", "data.json")
+		return &Vault{}, nil
+	}
+
+	if err != nil {
 		return nil, err
 	}
 
