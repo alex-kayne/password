@@ -1,7 +1,9 @@
 package account
 
 import (
+	"demo/password/files"
 	"encoding/json"
+	"errors"
 	"os"
 	"time"
 
@@ -13,36 +15,42 @@ type Vault struct {
 	UpdatedAt time.Time  `json:"updated_at"`
 }
 
-func NewVault() Vault {
-	f, err := os.ReadFile("data.json")
-	if err != nil {
+func NewVault() (*Vault, error) {
+	f, err := files.ReadFile("data.json")
+
+	if errors.Is(err, os.ErrNotExist) {
 		color.Red("Не существует файла с названием: %s", "data.json")
+		return nil, err
 	}
 
-	var data Vault
+	var vault Vault
 
-	err = json.Unmarshal(f, &data)
+	err = json.Unmarshal(f, &vault)
 
 	if err != nil {
 		color.Red("Ошибка сериализации: %v", err)
+		return nil, err
 	}
 
-	return data
+	return &vault, nil
 }
 
-func (v *Vault) AddAccount(account *Account) {
+func (v *Vault) AddAccount(account *Account) error {
 	v.Accounts = append(v.Accounts, account)
 	v.UpdatedAt = time.Now()
 	data, err := json.Marshal(v)
 	if err != nil {
 		color.Red("Не удалось сериализовать account")
+		return err
 	}
-	err = os.WriteFile("data.json", data, 64)
+	err = os.WriteFile("data.json", data, 0600)
 
 	if err != nil {
 		color.Red("Не удалось сохранить аккаунты %v", err)
+		return err
 	}
 
+	return nil
 }
 
 func (v *Vault) ToBytes() ([]byte, error) {

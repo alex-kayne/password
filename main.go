@@ -2,9 +2,9 @@ package main
 
 import (
 	"demo/password/account"
-	"demo/password/files"
 	"demo/password/menu"
 	"fmt"
+	"log"
 
 	"github.com/fatih/color"
 )
@@ -14,7 +14,11 @@ func main() {
 	var urlString, login, password string
 	var passwordLength int
 
-	vault := account.NewVault()
+	vault, err := account.NewVault()
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	for {
 		num, err := menu.GetMenu()
@@ -42,17 +46,10 @@ func main() {
 			if err != nil {
 				color.Red("%v", err)
 			} else {
-				vault.AddAccount(newAccount)
-				data, err := vault.ToBytes()
+				err = vault.AddAccount(newAccount)
+
 				if err != nil {
 					color.Red("%v", err)
-				} else {
-					err = files.WriteFile(string(data), "data.json")
-					if err != nil {
-						color.Red("%v", err)
-					} else {
-						color.Green("Vault выгружен в файл data.json")
-					}
 				}
 			}
 
