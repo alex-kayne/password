@@ -2,14 +2,14 @@ package files
 
 import "os"
 
-func ReadFile(fileName string) (string, error) {
+func ReadFile(fileName string) ([]byte, error) {
 	data, err := os.ReadFile(fileName)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(data), nil
+	return data, nil
 }
 
 func WriteFile(data string, fileName string) error {
