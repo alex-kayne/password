@@ -40,7 +40,7 @@ func NewVault() (*Vault, error) {
 	return &vault, nil
 }
 
-func (v *Vault) SaveAccount() error {
+func (v *Vault) Save() error {
 	data, err := json.Marshal(v)
 	if err != nil {
 		color.Red("Не удалось сериализовать account")
@@ -59,7 +59,7 @@ func (v *Vault) SaveAccount() error {
 func (v *Vault) AddAccount(account *Account) error {
 	v.Accounts = append(v.Accounts, account)
 	v.UpdatedAt = time.Now()
-	err := v.SaveAccount()
+	err := v.Save()
 	return err
 }
 
@@ -96,9 +96,9 @@ func (v *Vault) DeleteAccountByURL(url string) (bool, error) {
 		v.Accounts = newAccounts
 		v.UpdatedAt = time.Now()
 
-		err := v.SaveAccount()
+		err := v.Save()
 		if err != nil {
-			return isDeleted, err
+			return false, err
 		}
 	}
 
