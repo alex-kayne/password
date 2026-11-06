@@ -54,7 +54,12 @@ func main() {
 			}
 
 		case 2:
-			account.FindAccount()
+			fmt.Println("Введите url для поиска account")
+			_, err := fmt.Scan(&urlString)
+			if err != nil {
+				color.Red("%v", err)
+			}
+			vault.FindAccountsByUrl(urlString)
 		case 3:
 			account.DeleteAccount()
 		case 4:

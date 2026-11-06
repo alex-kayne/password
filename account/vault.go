@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/fatih/color"
@@ -63,4 +64,14 @@ func (v *Vault) ToBytes() ([]byte, error) {
 		return nil, err
 	}
 	return bytes, nil
+}
+
+func (v *Vault) FindAccountsByUrl(url string) []*Account {
+	var result []*Account
+	for _, account := range v.Accounts {
+		if strings.Contains(account.URL, url) {
+			result = append(result, account)
+		}
+	}
+	return result
 }

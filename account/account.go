@@ -83,5 +83,4 @@ func NewAccount(urlString, login, password string, passwordLength int) (*Account
 	return account, nil
 }
 
-func FindAccount()   {}
 func DeleteAccount() {}
