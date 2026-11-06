@@ -70,7 +70,22 @@ func main() {
 			}
 
 		case 3:
-			account.DeleteAccount()
+			fmt.Println("Введите url для удаления account")
+			_, err := fmt.Scan(&urlString)
+			if err != nil {
+				color.Red("%v", err)
+				continue
+			}
+			isDeleted, err := vault.DeleteAccountByURL(urlString)
+			if err != nil {
+				color.Red("%v", err)
+				continue
+			}
+			if isDeleted {
+				fmt.Println("Аккаунт успешно удален")
+			} else {
+				fmt.Println("Не удалось удалить аккаунт")
+			}
 		case 4:
 			return
 		default:
