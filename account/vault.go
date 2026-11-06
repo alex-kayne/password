@@ -66,7 +66,7 @@ func (v *Vault) ToBytes() ([]byte, error) {
 	return bytes, nil
 }
 
-func (v *Vault) FindAccountsByUrl(url string) []*Account {
+func (v *Vault) FindAccountsByURL(url string) []*Account {
 	var result []*Account
 	for _, account := range v.Accounts {
 		if strings.Contains(account.URL, url) {

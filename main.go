@@ -58,8 +58,17 @@ func main() {
 			_, err := fmt.Scan(&urlString)
 			if err != nil {
 				color.Red("%v", err)
+				continue
 			}
-			vault.FindAccountsByUrl(urlString)
+			foundAccounts := vault.FindAccountsByURL(urlString)
+			if len(foundAccounts) == 0 {
+				fmt.Println("Аккаунтов не найдено.")
+			} else {
+				for _, foundAc := range foundAccounts {
+					foundAc.OutputPassword()
+				}
+			}
+
 		case 3:
 			account.DeleteAccount()
 		case 4:
