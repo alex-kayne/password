@@ -1,7 +1,7 @@
 package cloud
 
 type CloudDB struct {
-	Url string
+	URL string
 }
 
 func NewCloudDB(url string) (*CloudDB, error) {
