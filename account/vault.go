@@ -21,8 +21,8 @@ func NewVault(db *jsondb.JSONDB) (*Vault, error) {
 	f, err := db.Read()
 
 	if errors.Is(err, os.ErrNotExist) {
-		color.Red("Не существует файла с названием: %s", "data.json")
-		return &Vault{}, nil
+		color.Red("Не существует файла с названием: %s", db.FilePath)
+		return &Vault{db: db}, nil
 	}
 
 	if err != nil {
