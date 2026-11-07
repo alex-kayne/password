@@ -18,10 +18,14 @@ type VaultWithDB struct {
 func NewVaultWithDB(db db.DB) (*VaultWithDB, error) {
 	f, err := db.Read()
 
-	var vaultWithDB VaultWithDB
+	if err != nil {
+		return nil, err
+	}
+
+	vaultWithDB := VaultWithDB{db: db}
 
 	if errors.Is(err, os.ErrNotExist) {
-		color.Red("Не существует файла с названием: data.json")
+		color.Red("Не существует файла")
 		return &vaultWithDB, nil
 	}
 
