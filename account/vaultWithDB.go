@@ -18,10 +18,6 @@ type VaultWithDB struct {
 func NewVaultWithDB(db db.DB) (*VaultWithDB, error) {
 	f, err := db.Read()
 
-	if err != nil {
-		return nil, err
-	}
-
 	vaultWithDB := VaultWithDB{db: db}
 
 	if errors.Is(err, os.ErrNotExist) {
@@ -29,11 +25,15 @@ func NewVaultWithDB(db db.DB) (*VaultWithDB, error) {
 		return &vaultWithDB, nil
 	}
 
+	if err != nil {
+		return nil, err
+	}
+
 	vault, err := NewVault(f)
 
 	if err != nil {
 		color.Red("Не удалось создать аккаунты из файла")
-		return &vaultWithDB, nil
+		return nil, err
 	}
 
 	vaultWithDB.Vault = *vault
