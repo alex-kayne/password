@@ -1,7 +1,6 @@
 package account
 
 import (
-	"demo/password/db"
 	"encoding/json"
 	"errors"
 	"os"
@@ -10,12 +9,17 @@ import (
 	"github.com/fatih/color"
 )
 
-type VaultWithDB struct {
-	Vault
-	db db.DB
+type Storage interface {
+	Read() ([]byte, error)
+	Write([]byte) error
 }
 
-func NewVaultWithDB(db db.DB) (*VaultWithDB, error) {
+type VaultWithDB struct {
+	Vault
+	db Storage
+}
+
+func NewVaultWithDB(db Storage) (*VaultWithDB, error) {
 	f, err := db.Read()
 
 	vaultWithDB := VaultWithDB{db: db}

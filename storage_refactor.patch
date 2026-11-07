@@ -1,0 +1,101 @@
+diff --git a/account/vaultWithDB.go b/account/vaultWithDB.go
+index fc2cdca..d5b2e95 100644
+--- a/account/vaultWithDB.go
++++ b/account/vaultWithDB.go
+@@ -1,7 +1,6 @@
+ package account
+ 
+ import (
+-	"demo/password/db"
+ 	"encoding/json"
+ 	"errors"
+ 	"os"
+@@ -10,12 +9,17 @@ import (
+ 	"github.com/fatih/color"
+ )
+ 
++type Storage interface {
++	Read() ([]byte, error)
++	Write([]byte) error
++}
++
+ type VaultWithDB struct {
+ 	Vault
+-	db db.DB
++	db Storage
+ }
+ 
+-func NewVaultWithDB(db db.DB) (*VaultWithDB, error) {
++func NewVaultWithDB(db Storage) (*VaultWithDB, error) {
+ 	f, err := db.Read()
+ 
+ 	vaultWithDB := VaultWithDB{db: db}
+diff --git a/db/db.go b/db/db.go
+deleted file mode 100644
+index efa356b..0000000
+--- a/db/db.go
++++ /dev/null
+@@ -1,6 +0,0 @@
+-package db
+-
+-type DB interface {
+-	Read() ([]byte, error)
+-	Write([]byte) error
+-}
+diff --git a/main.go b/main.go
+index 9bb2b3c..d730114 100644
+--- a/main.go
++++ b/main.go
+@@ -2,8 +2,8 @@ package main
+ 
+ import (
+ 	"demo/password/account"
+-	"demo/password/db"
+ 	"demo/password/menu"
++	"demo/password/storage/json"
+ 	"fmt"
+ 	"log"
+ 
+@@ -14,7 +14,7 @@ func main() {
+ 	fmt.Println("Добро пожаловать в менеджер паролей!")
+ 	var urlString, login, password string
+ 	var passwordLength int
+-	jsonDB := db.JSONDB{FilePath: "data.json"}
++	jsonDB := json.JSONDB{FilePath: "data.json"}
+ 	vault, err := account.NewVaultWithDB(&jsonDB)
+ 
+ 	if err != nil {
+diff --git a/cloud/cloud.go b/storage/cloud/cloud.go
+similarity index 82%
+rename from cloud/cloud.go
+rename to storage/cloud/cloud.go
+index 6587327..1f0f20e 100644
+--- a/cloud/cloud.go
++++ b/storage/cloud/cloud.go
+@@ -1,11 +1,11 @@
+ package cloud
+ 
+ type CloudDB struct {
+-	Url string
++	URL string
+ }
+ 
+ func NewCloudDB(url string) (*CloudDB, error) {
+-	return &CloudDB{url}, nil
++	return &CloudDB{URL: url}, nil
+ }
+ 
+ func (db *CloudDB) Read() ([]byte, error) {
+diff --git a/db/jsondb.go b/storage/json/json.go
+similarity index 96%
+rename from db/jsondb.go
+rename to storage/json/json.go
+index a39cc92..d4efede 100644
+--- a/db/jsondb.go
++++ b/storage/json/json.go
+@@ -1,4 +1,4 @@
+-package db
++package json
+ 
+ import "os"
+ 

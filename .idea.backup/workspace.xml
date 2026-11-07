@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b6ac758b-f4e6-480b-984d-0bc0e2c803a4" name="Changes" comment="feat: add password methods">
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file:///usr/lib/go-1.26" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;alex-kayne&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/alex-kayne/password.git&quot;,
+    &quot;accountId&quot;: &quot;37b07680-712d-4eba-954e-e5616695069d&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0029196274387402" />
+      <entry key="MS500" value="1.3112185588455425" />
+      <entry key="S2" value="1.7469067285561712" />
+      <entry key="S5" value="1.8898293051569195" />
+      <entry key="S10" value="1.9441057712258512" />
+      <entry key="S30" value="2.127967555051083" />
+      <entry key="S60" value="2.5353217338829355" />
+      <entry key="M2" value="3.3680521967298347" />
+      <entry key="M5" value="12.377911248095" />
+      <entry key="M10" value="37.00360377660023" />
+      <entry key="M15" value="60.99054767271118" />
+      <entry key="M30" value="118.9422663898868" />
+      <entry key="H1" value="192.79496289161835" />
+      <entry key="H2" value="263.11764673238315" />
+      <entry key="H4" value="314.39358281442554" />
+      <entry key="D1" value="369.35340170089364" />
+      <entry key="W1" value="380.155789150692" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="2.029264808855247E-119" />
+      <entry key="S5" value="3.366840781450538E-48" />
+      <entry key="S10" value="2.023893707649826E-24" />
+      <entry key="S30" value="2.0451741209618605E-8" />
+      <entry key="S60" value="2.3908447413032997E-4" />
+      <entry key="M2" value="0.028585232123311686" />
+      <entry key="M5" value="0.5932413195474012" />
+      <entry key="M10" value="1.9395395437751977" />
+      <entry key="M15" value="3.224928476111543" />
+      <entry key="M30" value="6.422523961356832" />
+      <entry key="H1" value="10.551391128348751" />
+      <entry key="H2" value="14.46027332963772" />
+      <entry key="H4" value="17.29081096142788" />
+      <entry key="D1" value="20.307961478445005" />
+      <entry key="W1" value="20.899131394952065" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9822798399618207" />
+      <entry key="MS500" value="1.3057766780792046" />
+      <entry key="S2" value="1.7450913772385428" />
+      <entry key="S5" value="1.8890435105413643" />
+      <entry key="S10" value="1.9437014064197564" />
+      <entry key="S30" value="2.1278115120966232" />
+      <entry key="S60" value="2.5354464234007272" />
+      <entry key="M2" value="3.395805693286668" />
+      <entry key="M5" value="12.962944468913422" />
+      <entry key="M10" value="38.92655055030489" />
+      <entry key="M15" value="64.19509803108079" />
+      <entry key="M30" value="125.34203760443758" />
+      <entry key="H1" value="203.3265925236176" />
+      <entry key="H2" value="277.56403609009016" />
+      <entry key="H4" value="331.6759980234095" />
+      <entry key="D1" value="389.659705179496" />
+      <entry key="W1" value="401.0546764407137" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3KPlV4XJ2kklXsJfu7oFBELw0zf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "Go Build.go build demo/password.executor": "Run",
+    "Go Build.go build main.go (1).executor": "Run",
+    "Go Build.go build main.go.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.GoLinterPluginOnboardingV2": "true",
+    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
+    "RunOnceActivity.GoOptimizationToolWindowEnableInLayout.v333333": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.go.analysis.ui.options.defaults": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/home/kang/projects/go/password/go.mod",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="main" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <working_directory value="$PROJECT_DIR$" />
+      <sudo value="true" />
+      <kind value="PACKAGE" />
+      <package value="demo/password" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/go.mod" />
+      <auto_managed_config_id value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-63c95d513abe-08e7ff217c2b-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-262.10968.67" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-GO-262.10968.67" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b6ac758b-f4e6-480b-984d-0bc0e2c803a4" name="Changes" comment="" />
+      <created>1791467104547</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1791467104547</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: add password struct" />
+    <MESSAGE value="feat: practice struct pointers" />
+    <MESSAGE value="feat: add password methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add password methods" />
+  </component>
+</project>
