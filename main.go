@@ -2,6 +2,7 @@ package main
 
 import (
 	"demo/password/account"
+	"demo/password/jsondb"
 	"demo/password/menu"
 	"fmt"
 	"log"
@@ -13,8 +14,8 @@ func main() {
 	fmt.Println("Добро пожаловать в менеджер паролей!")
 	var urlString, login, password string
 	var passwordLength int
-
-	vault, err := account.NewVault()
+	db := jsondb.JSONDB{FilePath: "data.json"}
+	vault, err := account.NewVault(&db)
 
 	if err != nil {
 		log.Fatal(err)

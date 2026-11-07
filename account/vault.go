@@ -1,7 +1,7 @@
 package account
 
 import (
-	"demo/password/files"
+	"demo/password/jsondb"
 	"encoding/json"
 	"errors"
 	"os"
@@ -14,10 +14,11 @@ import (
 type Vault struct {
 	Accounts  []*Account `json:"accounts"`
 	UpdatedAt time.Time  `json:"updated_at"`
+	db        *jsondb.JSONDB
 }
 
-func NewVault() (*Vault, error) {
-	f, err := files.ReadFile("data.json")
+func NewVault(db *jsondb.JSONDB) (*Vault, error) {
+	f, err := db.Read()
 
 	if errors.Is(err, os.ErrNotExist) {
 		color.Red("Не существует файла с названием: %s", "data.json")
@@ -36,7 +37,7 @@ func NewVault() (*Vault, error) {
 		color.Red("Ошибка сериализации: %v", err)
 		return nil, err
 	}
-
+	vault.db = db
 	return &vault, nil
 }
 
@@ -46,7 +47,7 @@ func (v *Vault) Save() error {
 		color.Red("Не удалось сериализовать account")
 		return err
 	}
-	err = os.WriteFile("data.json", data, 0600)
+	err = v.db.Write(data)
 
 	if err != nil {
 		color.Red("Не удалось сохранить аккаунты %v", err)
