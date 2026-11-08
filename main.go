@@ -3,11 +3,10 @@ package main
 import (
 	"demo/password/account"
 	"demo/password/menu"
+	"demo/password/output"
 	"demo/password/storage/json"
 	"fmt"
 	"log"
-
-	"github.com/fatih/color"
 )
 
 func main() {
@@ -25,7 +24,7 @@ func main() {
 		num, err := menu.GetMenu()
 
 		if err != nil {
-			color.Red("%v", err)
+			output.PrintError(err)
 			return
 		}
 
@@ -39,18 +38,18 @@ func main() {
 			}
 
 			if err != nil {
-				color.Red("%v", err)
+				output.PrintError(err)
 				return
 			}
 
 			newAccount, err := account.NewAccount(urlString, login, password, passwordLength)
 			if err != nil {
-				color.Red("%v", err)
+				output.PrintError(err)
 			} else {
 				err = vault.AddAccount(newAccount)
 
 				if err != nil {
-					color.Red("%v", err)
+					output.PrintError(err)
 				}
 			}
 
@@ -58,7 +57,7 @@ func main() {
 			fmt.Println("Введите url для поиска account")
 			_, err := fmt.Scan(&urlString)
 			if err != nil {
-				color.Red("%v", err)
+				output.PrintError(err)
 				continue
 			}
 			foundAccounts := vault.FindAccountsByURL(urlString)
@@ -74,12 +73,12 @@ func main() {
 			fmt.Println("Введите url для удаления account")
 			_, err := fmt.Scan(&urlString)
 			if err != nil {
-				color.Red("%v", err)
+				output.PrintError(err)
 				continue
 			}
 			isDeleted, err := vault.DeleteAccountByURL(urlString)
 			if err != nil {
-				color.Red("%v", err)
+				output.PrintError(err)
 				continue
 			}
 			if isDeleted {
