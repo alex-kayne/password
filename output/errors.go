@@ -7,10 +7,11 @@ import (
 func PrintError(value any) {
 	switch v := value.(type) {
 	case error:
-
-		color.Red("Ошибка типа error %v \n", v)
+		color.Red("Ошибка типа error - %s \n", v.Error())
 	case string:
-		color.Red("Ошибка строка %s \n", v)
+		color.Red("Ошибка - %s \n", v)
+	case int:
+		color.Red("Код ошибки - %d \n", v)
 	default:
 		color.Red("Все остальные значения %v \n", v)
 	}
