@@ -5,15 +5,24 @@ import (
 )
 
 func PrintError(value any) {
-	switch v := value.(type) {
-	case error:
-		color.Red("Ошибка типа error - %s \n", v.Error())
-	case string:
-		color.Red("Ошибка - %s \n", v)
-	case int:
-		color.Red("Код ошибки - %d \n", v)
-	default:
-		color.Red("Все остальные значения %v \n", v)
+	vError, ok := value.(error)
+	if ok {
+		color.Red(vError.Error())
+		return
 	}
 
+	vString, ok := value.(string)
+	if ok {
+		color.Red(vString)
+		return
+	}
+
+	vInt, ok := value.(int)
+	if ok {
+		color.Red("%d", vInt)
+		return
+	}
+
+	color.Red("Неподдреживаемый тип")
+	return
 }
