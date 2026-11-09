@@ -1,8 +1,10 @@
 package account
 
 import (
+	"demo/password/output"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"time"
 
@@ -97,4 +99,76 @@ func (v *VaultWithDB) DeleteAccountByURL(url string) (bool, error) {
 	}
 
 	return isDeleted, nil
+}
+
+func (v *VaultWithDB) CreateAccount() error {
+	var urlString, login, password string
+	var passwordLength int
+
+	fmt.Println("Введите url, login, password, длину пароля")
+	_, err := fmt.Scan(&urlString, &login, &password, &passwordLength)
+
+	if password == "-" {
+		password = ""
+	}
+
+	if err != nil {
+		return err
+	}
+
+	newAccount, err := NewAccount(urlString, login, password, passwordLength)
+	if err != nil {
+		return err
+	} else {
+		err = v.AddAccount(newAccount)
+
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (v *VaultWithDB) FindAccount() error {
+	var urlString string
+
+	fmt.Println("Введите url для поиска account")
+
+	_, err := fmt.Scan(&urlString)
+
+	if err != nil {
+		return err
+	}
+
+	foundAccounts := v.FindAccountsByURL(urlString)
+	if len(foundAccounts) == 0 {
+		fmt.Println("Аккаунтов не найдено.")
+	} else {
+		for _, foundAc := range foundAccounts {
+			foundAc.OutputPassword()
+		}
+	}
+
+	return nil
+}
+
+func (v *VaultWithDB) DeleteAccount() error {
+	var urlString string
+
+	fmt.Println("Введите url для удаления account")
+	_, err := fmt.Scan(&urlString)
+	if err != nil {
+		output.PrintError(err)
+		return err
+	}
+	isDeleted, err := v.DeleteAccountByURL(urlString)
+	if err != nil {
+		return err
+	}
+	if isDeleted {
+		fmt.Println("Аккаунт успешно удален")
+	} else {
+		fmt.Println("Не удалось удалить аккаунт")
+	}
+	return nil
 }

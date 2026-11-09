@@ -11,10 +11,15 @@ import (
 
 func main() {
 	fmt.Println("Добро пожаловать в менеджер паролей!")
-	var urlString, login, password string
-	var passwordLength int
+
 	jsonDB := json.JSONDB{FilePath: "data.json"}
 	vault, err := account.NewVaultWithDB(&jsonDB)
+
+	menuMap := map[int]func(*account.VaultWithDB) error{
+		1: (*account.VaultWithDB).CreateAccount,
+		2: (*account.VaultWithDB).FindAccount,
+		3: (*account.VaultWithDB).DeleteAccount,
+	}
 
 	if err != nil {
 		log.Fatal(err)
@@ -30,66 +35,19 @@ func main() {
 
 		switch num {
 		case 1:
-			fmt.Println("Введите url, login, password, длину пароля")
-			_, err := fmt.Scan(&urlString, &login, &password, &passwordLength)
-
-			if password == "-" {
-				password = ""
-			}
-
-			if err != nil {
-				output.PrintError(err)
-				return
-			}
-
-			newAccount, err := account.NewAccount(urlString, login, password, passwordLength)
-			if err != nil {
-				output.PrintError(err)
-			} else {
-				err = vault.AddAccount(newAccount)
-
-				if err != nil {
-					output.PrintError(err)
-				}
-			}
-
+			err = menuMap[1](vault)
 		case 2:
-			fmt.Println("Введите url для поиска account")
-			_, err := fmt.Scan(&urlString)
-			if err != nil {
-				output.PrintError(err)
-				continue
-			}
-			foundAccounts := vault.FindAccountsByURL(urlString)
-			if len(foundAccounts) == 0 {
-				fmt.Println("Аккаунтов не найдено.")
-			} else {
-				for _, foundAc := range foundAccounts {
-					foundAc.OutputPassword()
-				}
-			}
-
+			err = menuMap[1](vault)
 		case 3:
-			fmt.Println("Введите url для удаления account")
-			_, err := fmt.Scan(&urlString)
-			if err != nil {
-				output.PrintError(err)
-				continue
-			}
-			isDeleted, err := vault.DeleteAccountByURL(urlString)
-			if err != nil {
-				output.PrintError(err)
-				continue
-			}
-			if isDeleted {
-				fmt.Println("Аккаунт успешно удален")
-			} else {
-				fmt.Println("Не удалось удалить аккаунт")
-			}
+			err = menuMap[1](vault)
 		case 4:
 			return
 		default:
 			fmt.Println("Неизвестный параметр выбора")
+		}
+
+		if err != nil {
+			output.PrintError(err)
 		}
 	}
 }
