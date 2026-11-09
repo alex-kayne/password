@@ -5,16 +5,16 @@ import (
 )
 
 func GetMenu() (int, error) {
-	text := `Выберите вариант:
+	menuList := []string{
+		"Выберите вариант:",
+		"1. Создать аккаунт",
+		"2. Найти аккаунт",
+		"3. Удалить аккаунт",
+		"4. Выход",
+		"Ваш выбор",
+	}
 
-1. Создать аккаунт
-2. Найти аккаунт
-3. Удалить аккаунт
-4. Выход
-
-Ваш выбор:`
-
-	fmt.Println(text)
+	PrintList(menuList)
 	var num int
 
 	_, err := fmt.Scan(&num)
@@ -23,4 +23,14 @@ func GetMenu() (int, error) {
 		return 0, err
 	}
 	return num, nil
+}
+
+func PrintList[T any](items []T) {
+	for inx, item := range items {
+		if inx != len(items)-1 {
+			fmt.Println(item)
+		} else {
+			fmt.Printf("%v: ", item)
+		}
+	}
 }
