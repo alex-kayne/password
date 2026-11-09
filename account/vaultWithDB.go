@@ -1,7 +1,6 @@
 package account
 
 import (
-	"demo/password/output"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -158,7 +157,6 @@ func (v *VaultWithDB) DeleteAccount() error {
 	fmt.Println("Введите url для удаления account")
 	_, err := fmt.Scan(&urlString)
 	if err != nil {
-		output.PrintError(err)
 		return err
 	}
 	isDeleted, err := v.DeleteAccountByURL(urlString)

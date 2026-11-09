@@ -34,12 +34,8 @@ func main() {
 		}
 
 		switch num {
-		case 1:
-			err = menuMap[1](vault)
-		case 2:
-			err = menuMap[1](vault)
-		case 3:
-			err = menuMap[1](vault)
+		case 1, 2, 3:
+			err = menuMap[num](vault)
 		case 4:
 			return
 		default:
