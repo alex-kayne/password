@@ -35,28 +35,12 @@ func (v *Vault) ToBytes() ([]byte, error) {
 	return bytes, nil
 }
 
-func (v *Vault) FindAccountsByURL(url string) []*Account {
-	var result []*Account
-	for _, account := range v.Accounts {
-		if strings.Contains(account.URL, url) {
-			result = append(result, account)
-		}
-	}
-	return result
+func CheckUrl(account *Account, url string) bool {
+	return strings.Contains(account.URL, url)
 }
 
-func CheckUrl(account *Account, text string) bool {
-	if strings.Contains(account.URL, text) {
-		return true
-	}
-	return false
-}
-
-func CheckLogin(account *Account, text string) bool {
-	if strings.Contains(account.Login, text) {
-		return true
-	}
-	return false
+func CheckLogin(account *Account, login string) bool {
+	return strings.Contains(account.Login, login)
 }
 
 func (v *Vault) FindAccounts(text string, checker AccountsChecker) []*Account {
