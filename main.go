@@ -35,7 +35,7 @@ func main() {
 		}
 
 		switch num {
-		case 1, 2, 3:
+		case 1, 2, 3, 4:
 			err = menuMap[num](vault)
 		case 5:
 			return

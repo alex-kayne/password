@@ -140,6 +140,11 @@ func (v *VaultWithDB) FindAccountByUrl() error {
 	}
 
 	foundAccounts := v.FindAccounts(urlString, CheckUrl)
+	OutputResults(foundAccounts)
+	return nil
+}
+
+func OutputResults(foundAccounts []*Account) {
 	if len(foundAccounts) == 0 {
 		fmt.Println("Аккаунтов не найдено.")
 	} else {
@@ -147,30 +152,21 @@ func (v *VaultWithDB) FindAccountByUrl() error {
 			foundAc.OutputPassword()
 		}
 	}
-
-	return nil
 }
 
 func (v *VaultWithDB) FindAccountByLogin() error {
-	var urlString string
+	var loginString string
 
 	fmt.Println("Введите login для поиска account")
 
-	_, err := fmt.Scan(&urlString)
+	_, err := fmt.Scan(&loginString)
 
 	if err != nil {
 		return err
 	}
 
-	foundAccounts := v.FindAccounts(urlString, CheckLogin)
-	if len(foundAccounts) == 0 {
-		fmt.Println("Аккаунтов не найдено.")
-	} else {
-		for _, foundAc := range foundAccounts {
-			foundAc.OutputPassword()
-		}
-	}
-
+	foundAccounts := v.FindAccounts(loginString, CheckLogin)
+	OutputResults(foundAccounts)
 	return nil
 }
 
