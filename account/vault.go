@@ -8,6 +8,7 @@ import (
 	"github.com/fatih/color"
 )
 
+type AccountsChecker func(*Account, string) bool
 type Vault struct {
 	Accounts  []*Account `json:"accounts"`
 	UpdatedAt time.Time  `json:"updated_at"`
@@ -38,6 +39,30 @@ func (v *Vault) FindAccountsByURL(url string) []*Account {
 	var result []*Account
 	for _, account := range v.Accounts {
 		if strings.Contains(account.URL, url) {
+			result = append(result, account)
+		}
+	}
+	return result
+}
+
+func CheckUrl(account *Account, text string) bool {
+	if strings.Contains(account.URL, text) {
+		return true
+	}
+	return false
+}
+
+func CheckLogin(account *Account, text string) bool {
+	if strings.Contains(account.Login, text) {
+		return true
+	}
+	return false
+}
+
+func (v *Vault) FindAccounts(text string, checker AccountsChecker) []*Account {
+	var result []*Account
+	for _, account := range v.Accounts {
+		if checker(account, text) {
 			result = append(result, account)
 		}
 	}

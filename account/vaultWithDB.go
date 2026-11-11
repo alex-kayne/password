@@ -139,7 +139,7 @@ func (v *VaultWithDB) FindAccount() error {
 		return err
 	}
 
-	foundAccounts := v.FindAccountsByURL(urlString)
+	foundAccounts := v.FindAccounts(urlString, CheckUrl)
 	if len(foundAccounts) == 0 {
 		fmt.Println("Аккаунтов не найдено.")
 	} else {
