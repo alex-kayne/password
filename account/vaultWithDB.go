@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/fatih/color"
@@ -129,7 +128,7 @@ func (v *VaultWithDB) CreateAccount() error {
 	return nil
 }
 
-func (v *VaultWithDB) FindAccount() error {
+func (v *VaultWithDB) FindAccountByUrl() error {
 	var urlString string
 
 	fmt.Println("Введите url для поиска account")
@@ -140,9 +139,30 @@ func (v *VaultWithDB) FindAccount() error {
 		return err
 	}
 
-	foundAccounts := v.FindAccounts(urlString, func(account *Account, url string) bool {
-		return strings.Contains(account.URL, url)
-	})
+	foundAccounts := v.FindAccounts(urlString, CheckUrl)
+	if len(foundAccounts) == 0 {
+		fmt.Println("Аккаунтов не найдено.")
+	} else {
+		for _, foundAc := range foundAccounts {
+			foundAc.OutputPassword()
+		}
+	}
+
+	return nil
+}
+
+func (v *VaultWithDB) FindAccountByLogin() error {
+	var urlString string
+
+	fmt.Println("Введите login для поиска account")
+
+	_, err := fmt.Scan(&urlString)
+
+	if err != nil {
+		return err
+	}
+
+	foundAccounts := v.FindAccounts(urlString, CheckLogin)
 	if len(foundAccounts) == 0 {
 		fmt.Println("Аккаунтов не найдено.")
 	} else {

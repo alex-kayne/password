@@ -17,8 +17,9 @@ func main() {
 
 	menuMap := map[int]func(*account.VaultWithDB) error{
 		1: (*account.VaultWithDB).CreateAccount,
-		2: (*account.VaultWithDB).FindAccount,
-		3: (*account.VaultWithDB).DeleteAccount,
+		2: (*account.VaultWithDB).FindAccountByUrl,
+		3: (*account.VaultWithDB).FindAccountByLogin,
+		4: (*account.VaultWithDB).DeleteAccount,
 	}
 
 	if err != nil {
@@ -36,7 +37,7 @@ func main() {
 		switch num {
 		case 1, 2, 3:
 			err = menuMap[num](vault)
-		case 4:
+		case 5:
 			return
 		default:
 			fmt.Println("Неизвестный параметр выбора")
