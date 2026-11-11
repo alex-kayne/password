@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/fatih/color"
@@ -139,7 +140,9 @@ func (v *VaultWithDB) FindAccount() error {
 		return err
 	}
 
-	foundAccounts := v.FindAccounts(urlString, CheckUrl)
+	foundAccounts := v.FindAccounts(urlString, func(account *Account, text string) bool {
+		return strings.Contains(account.URL, text)
+	})
 	if len(foundAccounts) == 0 {
 		fmt.Println("Аккаунтов не найдено.")
 	} else {
