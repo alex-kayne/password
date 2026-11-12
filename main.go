@@ -8,10 +8,18 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/fatih/color"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	fmt.Println("Добро пожаловать в менеджер паролей!")
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		color.Red("Не удалось загрузить .env", err)
+	}
 
 	dbPath, exists := os.LookupEnv("DB_PATH")
 
