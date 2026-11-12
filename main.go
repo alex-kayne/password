@@ -18,7 +18,7 @@ func main() {
 	err := godotenv.Load(".env")
 
 	if err != nil {
-		color.Red("Не удалось загрузить .env", err)
+		color.Red("Не удалось загрузить .env: %v", err)
 	}
 
 	dbPath, exists := os.LookupEnv("DB_PATH")
