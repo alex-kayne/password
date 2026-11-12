@@ -7,12 +7,19 @@ import (
 	"demo/password/storage/json"
 	"fmt"
 	"log"
+	"os"
 )
 
 func main() {
 	fmt.Println("Добро пожаловать в менеджер паролей!")
 
-	jsonDB := json.JSONDB{FilePath: "data.json"}
+	DBPath, exists := os.LookupEnv("DB_PATH")
+
+	if !exists {
+		DBPath = "data.json"
+	}
+
+	jsonDB := json.JSONDB{FilePath: DBPath}
 	vault, err := account.NewVaultWithDB(&jsonDB)
 
 	menuMap := map[int]func(*account.VaultWithDB) error{
