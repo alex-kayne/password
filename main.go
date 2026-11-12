@@ -13,13 +13,13 @@ import (
 func main() {
 	fmt.Println("Добро пожаловать в менеджер паролей!")
 
-	DBPath, exists := os.LookupEnv("DB_PATH")
+	dbPath, exists := os.LookupEnv("DB_PATH")
 
-	if !exists {
-		DBPath = "data.json"
+	if !exists || dbPath == "" {
+		dbPath = "data.json"
 	}
 
-	jsonDB := json.JSONDB{FilePath: DBPath}
+	jsonDB := json.JSONDB{FilePath: dbPath}
 	vault, err := account.NewVaultWithDB(&jsonDB)
 
 	menuMap := map[int]func(*account.VaultWithDB) error{
