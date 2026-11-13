@@ -2,6 +2,7 @@ package main
 
 import (
 	"demo/password/account"
+	"demo/password/encrypter"
 	"demo/password/menu"
 	"demo/password/output"
 	"demo/password/storage/json"
@@ -19,6 +20,13 @@ func main() {
 
 	if err != nil {
 		color.Red("Не удалось загрузить .env: %v", err)
+	}
+
+	_, err = encrypter.NewEncrypter()
+
+	if err != nil {
+		color.Red("%v", err)
+		return
 	}
 
 	dbPath, exists := os.LookupEnv("DB_PATH")
