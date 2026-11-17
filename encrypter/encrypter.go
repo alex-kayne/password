@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"encoding/base64"
 	"errors"
 	"io"
 	"os"
@@ -15,6 +16,9 @@ type Encrypter struct {
 
 func NewEncrypter() (*Encrypter, error) {
 	key, exitsts := os.LookupEnv("ENCRYPT_KEY")
+	if len([]byte(key)) != 32 {
+		return nil, errors.New("люч AES-256 должен содержать 32 байта")
+	}
 	if !exitsts {
 		return nil, errors.New("переменная ENCRYPT_KEY не задана в окружении")
 	}
@@ -38,7 +42,7 @@ func (e *Encrypter) Encrypt(text string) (string, error) { // 1. Создаем 
 	}
 
 	ciphertext := gcm.Seal(nonce, nonce, []byte(text), nil)
-	return string(ciphertext), nil
+	return base64.StdEncoding.EncodeToString(ciphertext), nil
 }
 
 func (e *Encrypter) Decrypt(text string) (string, error) {
