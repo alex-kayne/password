@@ -15,12 +15,14 @@ type Encrypter struct {
 }
 
 func NewEncrypter() (*Encrypter, error) {
-	key, exitsts := os.LookupEnv("ENCRYPT_KEY")
+	key, exists := os.LookupEnv("ENCRYPT_KEY")
+
+	if !exists {
+		return nil, errors.New("переменная ENCRYPT_KEY не задана в окружении")
+	}
+
 	if len([]byte(key)) != 32 {
 		return nil, errors.New("люч AES-256 должен содержать 32 байта")
-	}
-	if !exitsts {
-		return nil, errors.New("переменная ENCRYPT_KEY не задана в окружении")
 	}
 	return &Encrypter{key: []byte(key)}, nil
 }
@@ -47,8 +49,11 @@ func (e *Encrypter) Encrypt(text string) (string, error) { // 1. Создаем 
 
 func (e *Encrypter) Decrypt(text string) (string, error) {
 	block, err := aes.NewCipher(e.key)
-	ciphertext := []byte(text)
+	if err != nil {
+		return "", err
+	}
 
+	ciphertext, err := base64.StdEncoding.DecodeString(text)
 	if err != nil {
 		return "", err
 	}
