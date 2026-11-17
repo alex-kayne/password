@@ -22,7 +22,7 @@ func NewEncrypter() (*Encrypter, error) {
 	}
 
 	if len([]byte(key)) != 32 {
-		return nil, errors.New("люч AES-256 должен содержать 32 байта")
+		return nil, errors.New("ключ AES-256 должен содержать 32 байта")
 	}
 	return &Encrypter{key: []byte(key)}, nil
 }
